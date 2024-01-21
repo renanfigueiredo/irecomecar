@@ -10,6 +10,7 @@ public class Worship {
 	private String id;
 	private String date;
 	private String hour;
+	private String descricao;
 	private Status status;
 	private List<ConnectBracelet> connectBracelet;
 	
@@ -31,6 +32,12 @@ public class Worship {
 	public void setHour(String hour) {
 		this.hour = hour;
 	}
+	public String getDescricao() {
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}	
 	public Status getStatus() {
 		return status;
 	}

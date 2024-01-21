@@ -60,16 +60,16 @@ public class ConnectService {
 		if(!StringHelper.validarTelefone(connect.getPhone()) && StringHelper.validarString(connect.getPhone())){
 			mensagens.add("O campo telefone está no formato errado.");
 		}
-		LocalDate dataNascimento = StringHelper.converterParaData(connect.getBirthDate());
-		if(dataNascimento != null){
-			if(!StringHelper.validarIdade(dataNascimento)) {
-				mensagens.add("Não é permitido o cadastro de connect com idade inferior a 8 anos e superior a 11 anos.");
-			}
-		}else {
-			if(StringHelper.validarString(connect.getBirthDate())) {
-				mensagens.add("O campo data de nascimento está no formato errado.");
-			}
-		}
+//		LocalDate dataNascimento = StringHelper.converterParaData(connect.getBirthDate());
+//		if(dataNascimento != null){
+//			if(!StringHelper.validarIdade(dataNascimento)) {
+//				mensagens.add("Não é permitido o cadastro de connect com idade inferior a 8 anos e superior a 11 anos.");
+//			}
+//		}else {
+//			if(StringHelper.validarString(connect.getBirthDate())) {
+//				mensagens.add("O campo data de nascimento está no formato errado.");
+//			}
+//		}
 		if(!mensagens.isEmpty()) {
 			throw new ServiceException(StringHelper.listToString(mensagens));
 		}

@@ -71,6 +71,7 @@
 		<p class="lead">Gestão do Culto</p>
 		<h5 th:text="|Data: ${worship.date}|"></h5>
 		<h5 th:text="|Hora: ${worship.hour}|"></h5>
+		<h5 th:text="|Descrição: ${worship.descricao}|"></h5>
 		<h5 th:text="|Status: ${worship.status}|"></h5>
 		<hr class="my-4">
 		<a class="btn btn-success" th:href="@{/worship/{id}/list-connect(id=${worship.id})}">Adicionar Kids Cadastrado</a>

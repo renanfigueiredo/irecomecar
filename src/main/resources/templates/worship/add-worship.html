@@ -65,10 +65,17 @@
 			    	<span th:if="${#fields.hasErrors('hour')}" th:errors="*{hour}"></span>
 			    </div>
 			    <br>
+			    <br>
+			    <div class="form-group">
+			    	<label for="hour">Descrição</label>
+			    	<input class="form-control" type="text" th:field="*{descricao}" id="descricao" placeholder="1 a 10 anos" required>
+			    	<span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></span>
+			    </div>
+			    <br>
 			    <div class="form-group">
 		    		<label for="status">Status</label>
 		    		<select class="form-control" th:field="*{status}" id="status">
-    					<option th:each="statusOpt : ${T(com.irecomecar.kids.model.worship.Status).values()}" 
+    					<option th:each="statusOpt : ${T(com.lagoinha.connect.model.worship.Status).values()}" 
         					th:value="${statusOpt}" th:utext="${statusOpt}"></option>
 					</select>
 		    	</div>

@@ -30,9 +30,10 @@
 				{ "sType": "date-uk" },
 	            null,
 	            null,
+	            null,
 	            null
 	        ],
-	        "aaSorting": [ [ 0, "desc" ], [ 1, "desc" ] ],
+	        "aaSorting": [ [ 0, "desc" ], [ 1, "desc" ], [ 2, "desc" ] ],
 	        language: {
 	            url: 'https://cdn.datatables.net/plug-ins/1.12.1/i18n/pt-BR.json'
 	        }
@@ -68,7 +69,7 @@
 		<div th:switch="${worships}">
 			<p>
 				<a class="btn btn-primary" href="/worship/signup">Criar um novo Culto</a>
-				<a class="btn btn-danger" href="/worship/closeAll">Encerrar Cultos Abertos</a>
+<!-- 				<a class="btn btn-danger" href="/worship/closeAll">Encerrar Cultos Abertos</a> -->
 			</p>
 			<h2 th:case="null">No worships yet!</h2>
 			<div th:case="*">
@@ -77,6 +78,7 @@
 						<tr>
 							<th>Data</th>
 							<th>Hora</th>
+							<th>Descricao</th>
 							<th>Status</th>
 							<th>Ações</th>
 						</tr>
@@ -85,11 +87,12 @@
 						<tr th:each="worship : ${worships}">
 							<td th:text="${worship.date}"></td>
 							<td th:text="${worship.hour}"></td>
+							<td th:text="${worship.descricao}"></td>
 							<td th:text="${worship.status}"></td>
 							<td>
 								<a class="btn btn-success btn-sm" th:href="@{/worship/details/{id}(id=${worship.id})}">Detalhes</a> 
 								<a class="btn btn-warning btn-sm" th:href="@{/worship/edit/{id}(id=${worship.id})}">Editar Cadastro</a>
-								<a class="btn btn-danger btn-sm" th:if="${worship.status == T(com.irecomecar.kids.model.worship.Status).EXCLUIR}" th:href="@{/worship/delete/{id}(id=${worship.id})}">Excluir Culto</a>
+								<a class="btn btn-danger btn-sm" th:if="${worship.status == T(com.lagoinha.connect.model.worship.Status).EXCLUIR}" th:href="@{/worship/delete/{id}(id=${worship.id})}">Excluir Culto</a>
 							</td>
 						</tr>
 					</tbody>
