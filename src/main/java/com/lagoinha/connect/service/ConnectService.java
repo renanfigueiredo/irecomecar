@@ -104,31 +104,6 @@ public class ConnectService {
 		}
 	}
 	
-	public Boolean readCsv() {
-		try {
-			BufferedReader br = new BufferedReader(new FileReader("banco_connect.csv"));
-			String line;
-			while ((line = br.readLine()) != null) {
-				try {
-					String[] values = line.split(";");
-					Connect connect = new Connect();
-					connect.setName(values[0]);
-					connect.setBirthDate(values[1]);
-					connect.setResponsible(values[2]);
-					connect.setPhone(values[3]);
-					System.out.println(values[0]);
-					mongoTemplate.save(connect, COLLECTION);
-				} catch (Exception e) {
-					System.out.println("Erro na linha: "+line);
-				}
-			}
-			br.close();
-			return true;
-		} catch (Exception e) {
-			return false;
-		} 
-	}
-	
 	public static List<Connect> encontrarDuplicados(List<Connect> lista) {
         return lista.stream()
                 .collect(Collectors.groupingBy(e -> e))

@@ -1,6 +1,7 @@
 package com.lagoinha.connect.controller;
 
-import com.lagoinha.connect.model.auth.User;
+import com.lagoinha.connect.model.user.RegisterDTO;
+import com.lagoinha.connect.model.user.User;
 import com.lagoinha.connect.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,50 +19,42 @@ public class UserController {
 
 	@Autowired
 	UserService usuarioService;
-	
+
 	@GetMapping("signup")
     public String showSignUpForm(User user) {
         return "user/add-user";
     }
-	
+
 	@GetMapping("index")
 	public String showUserList(Model model) {
 	    model.addAttribute("users", usuarioService.list());
 	    return "user/index";
 	}
-	
+
 	@PostMapping("adduser")
-	public String save(User user, BindingResult result, Model model){
-		
-		 if (result.hasErrors()) {
-	            return "/user/add-user";
-	        }
-		
-		usuarioService.save(user);
+	public String save(RegisterDTO data, BindingResult result, Model model){
+		usuarioService.save(data);
 		return "redirect:/user/index";
 	}
-	
+
 	@GetMapping("edit/{id}")
 	public String showUpdateForm(@PathVariable("id") String id, Model model) {
 	    User user = usuarioService.findById(id);
 	    model.addAttribute("user", user);
 	    return "user/update-user";
 	}
-	
-	@PostMapping("update/{id}")
-	public String edit(@PathVariable("id") String id, User user, BindingResult result, Model model){
-		if (result.hasErrors()) {
-			user.setId(user.getId());
-	        return "user/update-user";
-	    }
-		usuarioService.edit(user);
+
+	@PostMapping("update")
+	public String edit(User user, BindingResult result, Model model){
+		String id = user.getId();
+		usuarioService.edit(user, id);
 		return "redirect:/user/index";
 	}
-	
+
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable String id, Model model){
 		usuarioService.delete(id);
 		return "redirect:/user/index";
 	}
-	
+
 }

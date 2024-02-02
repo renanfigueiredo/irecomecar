@@ -2,9 +2,6 @@ package com.lagoinha.connect.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import org.jasypt.util.password.BasicPasswordEncryptor;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +11,7 @@ public class Criptografia {
 		
 		try {
 			MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
-		    byte hash[] = algorithm.digest(valor.getBytes("UTF-8"));
+		    byte[] hash = algorithm.digest(valor.getBytes(StandardCharsets.UTF_8));
 
 		    StringBuilder texto = new StringBuilder();
 		    for (byte b : hash) {
@@ -22,7 +19,6 @@ public class Criptografia {
 		    }
 		    return texto.toString();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
