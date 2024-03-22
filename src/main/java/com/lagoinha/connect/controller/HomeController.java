@@ -6,8 +6,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.security.Principal;
 
 @Controller
+@AllArgsConstructor
 public class HomeController {
-
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @GetMapping
-    public String index(Principal p, Model m, HttpServletRequest request) {
+    public String index(Principal p, Model m) {
         if(p != null){
             User user = userRepository.findByLoginOrderByName(p.getName());
             if(user != null && user.getName() != null){
@@ -37,7 +35,7 @@ public class HomeController {
     }
 
 	@GetMapping("/home")
-    public String home(Principal p, Model m, HttpServletRequest request) {
+    public String homePage(Principal p, Model m) {
         if(p != null){
             User user = userRepository.findByLoginOrderByName(p.getName());
             if(user != null && user.getName() != null){

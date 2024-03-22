@@ -1,7 +1,6 @@
 package com.lagoinha.connect.controller;
 
 import com.lagoinha.connect.model.user.AuthenticationDTO;
-import com.lagoinha.connect.model.user.LoginResponseDTO;
 import com.lagoinha.connect.model.user.RegisterDTO;
 import com.lagoinha.connect.model.user.User;
 import com.lagoinha.connect.repositories.UserRepository;
@@ -11,7 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,13 +20,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@AllArgsConstructor
 public class AuthenticationController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private UserRepository repository;
-    @Autowired
-    private TokenService tokenService;
+
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository repository;
+    private final TokenService tokenService;
 
     @GetMapping("/login")
     public String home(Model model, HttpServletRequest request, HttpServletResponse res, HttpSession session) {
@@ -68,7 +66,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
+    public ResponseEntity<Object> register(@RequestBody @Valid RegisterDTO data){
         if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());

@@ -3,8 +3,7 @@ package com.lagoinha.connect.controller;
 import com.lagoinha.connect.model.user.RegisterDTO;
 import com.lagoinha.connect.model.user.User;
 import com.lagoinha.connect.service.UserService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("user")
+@AllArgsConstructor
 public class UserController {
 
-	@Autowired
-	UserService usuarioService;
+	private final UserService usuarioService;
+
+	private static final String REDIRECT_USER_INDEX = "redirect:/user/index";
 
 	@GetMapping("signup")
     public String showSignUpForm(User user) {
@@ -34,7 +35,7 @@ public class UserController {
 	@PostMapping("adduser")
 	public String save(RegisterDTO data, BindingResult result, Model model){
 		usuarioService.save(data);
-		return "redirect:/user/index";
+		return REDIRECT_USER_INDEX;
 	}
 
 	@GetMapping("edit/{id}")
@@ -48,13 +49,13 @@ public class UserController {
 	public String edit(User user, BindingResult result, Model model){
 		String id = user.getId();
 		usuarioService.edit(user, id);
-		return "redirect:/user/index";
+		return REDIRECT_USER_INDEX;
 	}
 
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable String id, Model model){
 		usuarioService.delete(id);
-		return "redirect:/user/index";
+		return REDIRECT_USER_INDEX;
 	}
 
 }

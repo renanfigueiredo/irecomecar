@@ -15,6 +15,7 @@ import com.lagoinha.connect.util.ServiceException;
 import com.lagoinha.connect.util.StringHelper;
 import com.mongodb.client.result.DeleteResult;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -22,16 +23,16 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class ConnectService {
 
-	@Autowired
-	MongoTemplate mongoTemplate;
-	
-	private final static String COLLECTION = "connect";
+	private final MongoTemplate mongoTemplate;
+
+	private static final String COLLECTION = "connect";
 	
 	public Connect save(Connect connect) {
 		try {
-			if(validarConnect(connect)) {
+			if(Boolean.TRUE.equals(validarConnect(connect))) {
 				return mongoTemplate.save(connect, COLLECTION);
 			}
 			return null;
@@ -44,32 +45,22 @@ public class ConnectService {
 	public Boolean validarConnect(Connect connect) {
 		Boolean retorno = true;
 		List<String> mensagens = new ArrayList<>();
-		if(!StringHelper.validarString(connect.getName())) {
+		if(Boolean.FALSE.equals(StringHelper.validarString(connect.getName()))) {
 			mensagens.add("O campo nome é obrigatório.");
 		}
-		if(!StringHelper.validarString(connect.getBirthDate())) {
+		if(Boolean.FALSE.equals(StringHelper.validarString(connect.getBirthDate()))) {
 			mensagens.add("O campo data de nascimento é obrigatório.");
 		}
-		if(!StringHelper.validarString(connect.getResponsible())) {
+		if(Boolean.FALSE.equals(StringHelper.validarString(connect.getResponsible()))) {
 			mensagens.add("O campo responsável é obrigatório.");
 		}
-		if(!StringHelper.validarString(connect.getPhone())) {
+		if(Boolean.FALSE.equals(StringHelper.validarString(connect.getPhone()))) {
 			mensagens.add("O campo telefone é obrigatório.");
 		}
 		
-		if(!StringHelper.validarTelefone(connect.getPhone()) && StringHelper.validarString(connect.getPhone())){
+		if(Boolean.TRUE.equals(!StringHelper.validarTelefone(connect.getPhone())) && Boolean.TRUE.equals(StringHelper.validarString(connect.getPhone()))){
 			mensagens.add("O campo telefone está no formato errado.");
 		}
-//		LocalDate dataNascimento = StringHelper.converterParaData(connect.getBirthDate());
-//		if(dataNascimento != null){
-//			if(!StringHelper.validarIdade(dataNascimento)) {
-//				mensagens.add("Não é permitido o cadastro de connect com idade inferior a 8 anos e superior a 11 anos.");
-//			}
-//		}else {
-//			if(StringHelper.validarString(connect.getBirthDate())) {
-//				mensagens.add("O campo data de nascimento está no formato errado.");
-//			}
-//		}
 		if(!mensagens.isEmpty()) {
 			throw new ServiceException(StringHelper.listToString(mensagens));
 		}
@@ -91,7 +82,7 @@ public class ConnectService {
 	
 	public Connect edit(Connect connect) {
 		try {
-			if(validarConnect(connect)) {
+			if(Boolean.TRUE.equals(validarConnect(connect))) {
 				Query query  = new Query(Criteria.where("id").is(connect.getId()));
 				Connect usuarioAuxiliar = mongoTemplate.findOne(query, Connect.class);
 				if(usuarioAuxiliar != null) {
@@ -102,74 +93,6 @@ public class ConnectService {
 		} catch (Exception e) {
 			throw new ServiceException(e.getMessage());
 		}
-	}
-	
-	public static List<Connect> encontrarDuplicados(List<Connect> lista) {
-        return lista.stream()
-                .collect(Collectors.groupingBy(e -> e))
-                .entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().size() > 1)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-    }
-	
-	public void deleteDuplicate() {
-		List<Connect> connectsDuplicado = encontrarDuplicados(mongoTemplate.findAll(Connect.class, COLLECTION));
-		for(Connect connect: connectsDuplicado) {
-//			Query queryBusca  = new Query(Criteria.where("name").is(connect.getName()));
-//			Connect connectAux = mongoTemplate.findOne(queryBusca, Connect.class);
-//			System.out.println(connectAux);
-			
-//			Query queryDelete = new Query(Criteria.where("id").is(connect.getId()));
-//			mongoTemplate.remove(queryDelete, Connect.class, COLLECTION);
-		}
-	}
-
-	public void deleteWrongAge() {
-		List<Connect> conects = mongoTemplate.findAll(Connect.class, COLLECTION);
-		Integer i = 1;
-		for(Connect connect : conects) {
-			try {
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-				LocalDate dataNascimento = LocalDate.parse(connect.getBirthDate(), formatter);
-				LocalDate dataAtual = LocalDate.now();
-				Period diferenca = Period.between(dataNascimento, dataAtual);
-				Integer idade = diferenca.getYears();
-				if(idade < 9 || idade > 12) {
-					System.out.println("["+i+"] " + "Nome: " + connect.getName() + " | Data de Nascimento: " + connect.getBirthDate() + " | Idade: " + idade);
-					
-//					Query queryDelete = new Query(Criteria.where("id").is(connect.getId()));
-//					mongoTemplate.remove(queryDelete, Connect.class, COLLECTION);
-					
-					i++;
-				}
-			} catch (Exception e) {
-				try {
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-					LocalDate dataNascimento = LocalDate.parse(connect.getBirthDate(), formatter);
-					LocalDate dataAtual = LocalDate.now();
-					Period diferenca = Period.between(dataNascimento, dataAtual);
-					Integer idade = diferenca.getYears();
-					if(idade < 9 || idade > 12) {
-						System.out.println("["+i+"] " + "Nome: " + connect.getName() + " | Data de Nascimento: " + connect.getBirthDate() + " | Idade: " + idade);
-						
-//						Query queryDelete = new Query(Criteria.where("id").is(connect.getId()));
-//						mongoTemplate.remove(queryDelete, Connect.class, COLLECTION);
-						
-						i++;
-						
-					}
-				} catch (Exception e2) {
-					System.out.println("["+i+"] " + "[E R R O] " + "Nome: " + connect.getName() + " | Data de Nascimento: " + connect.getBirthDate());
-//					Query queryDelete = new Query(Criteria.where("id").is(connect.getId()));
-//					mongoTemplate.remove(queryDelete, Connect.class, COLLECTION);
-					i++;
-				}
-			}
-			
-		}
-		
 	}
 	
 }

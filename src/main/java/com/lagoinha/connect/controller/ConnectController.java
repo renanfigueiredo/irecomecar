@@ -76,17 +76,5 @@ public class ConnectController {
 		connectService.delete(id);
 		return "redirect:/connect/index";
 	}
-	
-	@GetMapping("deleteWrongAge")
-	public String deleteWrongAge() {
-		connectService.deleteWrongAge();
-		return "redirect:/connect/index";
-	}
-	
-	@GetMapping("deleteDuplicate")
-	public String deleteDuplicate() {
-		connectService.deleteDuplicate();
-		return "redirect:/connect/index";
-	}
 
 }
