@@ -61,6 +61,14 @@
 			<input type="hidden" th:value="${worship.id}" name="idWorship" />
 			<br>
 			<div class="form-group">
+				<label for="tipo">Tipo</label>
+				<select class="form-control" th:field="*{tipo}" id="tipo">
+					<option th:each="statusOpt : ${T(com.lagoinha.connect.model.connect.TipoPessoa).KIDS}"
+							th:value="${statusOpt}" th:utext="${statusOpt.descricao}"></option>
+				</select>
+			</div>
+			<br>
+			<div class="form-group">
 				<input class="btn btn-primary" type="submit" value="Adicionar Kids ao Culto">
 				<a class="btn btn-danger" th:href="@{/worship/{id}/list-connect(id=${worship.id})}">Voltar</a>
 			</div>

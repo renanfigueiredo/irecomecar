@@ -48,7 +48,7 @@ public class WorshipController {
 	
 	@GetMapping("{id}/list-connect")
     public String listConnect(@PathVariable("id") String id, Model model) {
-		List<Connect> connects = connectService.list();
+		List<Connect> connects = connectService.listKids();
 	    Worship worship = worshipService.findById(id);
 	    model.addAttribute("connects", connects);
 	    model.addAttribute(WORSHIP, worship);
@@ -105,12 +105,15 @@ public class WorshipController {
 	public String save(@ModelAttribute ConnectVisitor connectVisitor, BindingResult result, Model model){
 		List<String> err = null;
 		try {
-			Connect connect = new Connect();
-			connect.setName(connectVisitor.getName());
-			connect.setBirthDate(connectVisitor.getBirthDate());
-			connect.setPhone(connectVisitor.getPhone());
-			connect.setResponsible(connectVisitor.getResponsible());
-			
+			Connect connect = Connect
+					.builder()
+					.name(connectVisitor.getName())
+					.birthDate(connectVisitor.getBirthDate())
+					.phone(connectVisitor.getPhone())
+					.responsible(connectVisitor.getResponsible())
+					.tipo(connectVisitor.getTipo())
+					.build();
+
 			if(Boolean.TRUE.equals(connectService.validarConnect(connect)) && Boolean.FALSE.equals(StringHelper.validateBracelet(connectVisitor.getBraceletNumber()))) {
 				Worship worship = worshipService.findById(connectVisitor.getIdWorship());
 				model.addAttribute(WORSHIP, worship);

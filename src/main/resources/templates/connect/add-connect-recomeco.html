@@ -45,8 +45,8 @@
 			</div>
 			<br>
 			<div class="form-group">
-				<label for="tipoPessoa">Tipo</label>
-				<select class="form-control" th:field="*{tipoPessoa}" id="tipoPessoa">
+				<label for="tipo">Tipo</label>
+				<select class="form-control" th:field="*{tipo}" id="tipo">
 					<option th:each="statusOpt : ${T(com.lagoinha.connect.model.connect.TipoPessoa).RECOMECO}"
 							th:value="${statusOpt}" th:utext="${statusOpt.descricao}"></option>
 				</select>

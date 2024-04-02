@@ -45,7 +45,7 @@
 						<td th:text="${worship.descricao}"></td>
 						<td th:text="${worship.status}"></td>
 						<td>
-							<a class="btn btn-success btn-sm" th:href="@{/worship/details/{id}(id=${worship.id})}">Detalhes</a>
+							<a class="btn btn-success btn-sm" th:href="@{/worship/details/{id}(id=${worship.id})}">Kids</a>
 							<a class="btn btn-warning btn-sm" th:href="@{/worship/edit/{id}(id=${worship.id})}">Editar Cadastro</a>
 							<a class="btn btn-danger btn-sm" th:href="@{/worship/delete/{id}(id=${worship.id})}"
 							   th:data-confirm-delete="|Deseja realmente realizar a exclusão do culto?|"

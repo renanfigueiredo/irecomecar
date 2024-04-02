@@ -45,6 +45,11 @@
 			</div>
 			<br>
 			<div class="form-group">
+				<label for="responsible">Responsável</label>
+				<input class="form-control" type="text" th:field="*{responsible}" id="responsible" placeholder="Nome do Responsável">
+			</div>
+			<br>
+			<div class="form-group">
 				<label for="tipo">Tipo</label>
 				<select class="form-control" th:field="*{tipo}" id="tipo">
 					<option th:each="statusOpt : ${T(com.lagoinha.connect.model.connect.TipoPessoa).KIDS}"

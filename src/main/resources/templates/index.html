@@ -1,8 +1,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout (~{:: main})}">
 	<body>
 		<main>
-			<p class="lead" th:text="|Olá ${name}! Seja bem-vindo à Igreja Recomeçar|"></p>
-			<h6>Para sair do sistema <a th:href="@{/sair}">CLIQUE AQUI</a></h6>
+			<div class="list-group-item borderless d-flex justify-content-between align-items-start" style="border: none">
+				<p class="lead" th:text="|Olá ${name}! Seja bem-vindo à Igreja Recomeçar|"></p>
+				<a class="lead btn btn-danger" th:href="@{/sair}">SAIR</a>
+			</div>
 			<div class="card">
 				<h4 class="card-header">Usuários</h4>
 				<div class="card-body">

@@ -33,19 +33,19 @@ public class ConnectController {
 	@GetMapping("index/kids")
 	public String showPessoaKids(Model model) {
 		model.addAttribute("connects", connectService.listKids());
-		return "connect/index";
+		return "connect/index-kids";
 	}
 
 	@GetMapping("index/membro")
 	public String showPessoaMembro(Model model) {
 		model.addAttribute("connects", connectService.listMembros());
-		return "connect/index";
+		return "connect/index-membro";
 	}
 
 	@GetMapping("index/recomeco")
 	public String showPessoaRecomeco(Model model) {
 		model.addAttribute("connects", connectService.listRecomecos());
-		return "connect/index";
+		return "connect/index-recomeco";
 	}
 
 	@GetMapping("index/batizar")
