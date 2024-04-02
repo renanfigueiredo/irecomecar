@@ -3,6 +3,7 @@ package com.lagoinha.connect.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lagoinha.connect.model.connect.Connect;
 import com.lagoinha.connect.model.voluntario.Escala;
 import com.lagoinha.connect.model.voluntario.EscalaVoluntario;
 import com.lagoinha.connect.model.voluntario.Ministerio;
@@ -52,7 +53,7 @@ public class EscalaService {
 		return null;
 	}
 
-	public Escala addVoluntario(Escala escala, Voluntario voluntario, Ministerio ministerio, Boolean checkin) {
+	public Escala addVoluntario(Escala escala, Connect voluntario, Ministerio ministerio, Boolean checkin) {
 		EscalaVoluntario escalaVoluntario = new EscalaVoluntario();
 		escalaVoluntario.setMinisterio(ministerio);
 		escalaVoluntario.setVoluntario(voluntario);
@@ -75,7 +76,7 @@ public class EscalaService {
 		return null;
 	}
 
-	public Escala fazerCheckin(Escala escala, Voluntario voluntario, Boolean chekin) {
+	public Escala fazerCheckin(Escala escala, Connect voluntario, Boolean chekin) {
 
 		List<EscalaVoluntario> escalaVoluntarioList = escala.getEscalaVoluntarioList();
 		for (EscalaVoluntario escalaVoluntario : escalaVoluntarioList) {

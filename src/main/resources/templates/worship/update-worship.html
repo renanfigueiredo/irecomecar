@@ -24,7 +24,7 @@
 			<br>
 			<div class="form-group">
 				<label for="hour">Descrição</label>
-				<input class="form-control" type="text" th:field="*{descricao}" id="descricao" placeholder="1 a 10 anos">
+				<input class="form-control" type="text" th:field="*{descricao}" id="descricao" placeholder="Descrição do Culto (Opcional)">
 				<span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}"></span>
 			</div>
 			<br>

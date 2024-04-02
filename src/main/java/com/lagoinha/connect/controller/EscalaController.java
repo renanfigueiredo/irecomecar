@@ -3,6 +3,7 @@ package com.lagoinha.connect.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lagoinha.connect.model.connect.Connect;
 import com.lagoinha.connect.model.voluntario.Escala;
 import com.lagoinha.connect.model.voluntario.EscalaIndex;
 import com.lagoinha.connect.model.voluntario.EscalaVoluntario;
@@ -10,10 +11,7 @@ import com.lagoinha.connect.model.voluntario.Ministerio;
 import com.lagoinha.connect.model.voluntario.Voluntario;
 import com.lagoinha.connect.model.voluntario.VoluntarioSemCadastro;
 import com.lagoinha.connect.model.worship.Worship;
-import com.lagoinha.connect.service.EscalaService;
-import com.lagoinha.connect.service.MinisterioService;
-import com.lagoinha.connect.service.VoluntarioService;
-import com.lagoinha.connect.service.WorshipService;
+import com.lagoinha.connect.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +31,7 @@ public class EscalaController {
 	EscalaService escalaService;
 	
 	@Autowired
-	VoluntarioService voluntarioService;
+	ConnectService connectService;
 	
 	@Autowired
 	MinisterioService ministerioService;
@@ -63,7 +61,7 @@ public class EscalaController {
 	
 	@GetMapping("{id}/list-voluntarios")
     public String listVoluntarios(@PathVariable("id") String id, Model model) {
-		List<Voluntario> voluntarios = voluntarioService.list();
+		List<Connect> voluntarios = connectService.listVoluntarios();
 	    Escala escala = escalaService.findById(id);
 	    EscalaIndex escalaIndex = new EscalaIndex();
 		escalaIndex.setId(escala.getId());
@@ -92,7 +90,7 @@ public class EscalaController {
 	
 	@GetMapping("{id}/list-voluntario-ministerio")
     public String listVoluntarioMinisterio(@PathVariable("id") String id, Model model) {
-		List<Voluntario> voluntarios = voluntarioService.list();
+		List<Connect> voluntarios = connectService.listVoluntarios();
 		List<Ministerio> ministerios = ministerioService.list();
 	    Escala escala = escalaService.findById(id);
 	    model.addAttribute("voluntarios", voluntarios);
@@ -106,7 +104,7 @@ public class EscalaController {
     		@PathVariable("idEscala") String idEscala, 
     		@PathVariable("idVoluntario") String idVoluntario,
     		Model model) {
-		Voluntario voluntario = voluntarioService.findById(idVoluntario);
+		Connect voluntario = connectService.findById(idVoluntario);
 	    Escala escala = escalaService.findById(idEscala);
 	    List<Ministerio> ministerios = ministerioService.list();
 	    EscalaIndex escalaIndex = new EscalaIndex();
@@ -151,7 +149,7 @@ public class EscalaController {
 			@ModelAttribute EscalaVoluntario escalaVoluntario, BindingResult result, Model model){
 		
 		Escala escala = escalaService.findById(idEscala);
-		Voluntario volutario = voluntarioService.findById(idVoluntario);
+		Connect volutario = connectService.findById(idVoluntario);
 		Ministerio ministerioAux = ministerioService.findById(escalaVoluntario.getMinisterio().getId());
 		
 		escalaService.addVoluntario(
@@ -180,11 +178,11 @@ public class EscalaController {
 	public String save(@ModelAttribute VoluntarioSemCadastro voluntarioSemCadastro, BindingResult result, Model model){
 		
 		//Transformar o form no Voluntario para salvar no banco de dados;
-		Voluntario voluntario = new Voluntario();
+		Connect voluntario = new Connect();
 		voluntario.setName(voluntarioSemCadastro.getNomeVoluntario() + " "+ voluntarioSemCadastro.getSobrenomeVoluntario());
 		voluntario.setPhone(voluntarioSemCadastro.getTelefoneVoluntario());
 		
-		Voluntario voluntarioSaved = voluntarioService.save(voluntario);
+		Connect voluntarioSaved = connectService.save(voluntario);
 		
 		Escala escala = escalaService.findById(voluntarioSemCadastro.getIdEscala());
 		
@@ -204,7 +202,7 @@ public class EscalaController {
 	@GetMapping("fazerCheckin/{idEscala}/{idVoluntario}")
 	public String fazerCheckin(@PathVariable String idEscala, @PathVariable String idVoluntario, Model model){
 		Escala escala = escalaService.findById(idEscala);
-		Voluntario voluntario = voluntarioService.findById(idVoluntario);
+		Connect voluntario = connectService.findById(idVoluntario);
 		escalaService.fazerCheckin(escala, voluntario, true);
 		return "redirect:/escala/details/" + idEscala;
 	}
@@ -212,7 +210,7 @@ public class EscalaController {
 	@GetMapping("removerCheckin/{idEscala}/{idVoluntario}")
 	public String removerCheckin(@PathVariable String idEscala, @PathVariable String idVoluntario, Model model){
 		Escala escala = escalaService.findById(idEscala);
-		Voluntario voluntario = voluntarioService.findById(idVoluntario);
+		Connect voluntario = connectService.findById(idVoluntario);
 		escalaService.fazerCheckin(escala, voluntario, false);
 		return "redirect:/escala/details/" + idEscala;
 	}

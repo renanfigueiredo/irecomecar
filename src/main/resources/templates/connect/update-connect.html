@@ -1,4 +1,4 @@
-<html th:replace="~{base :: layout (~{:: main})}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="pt-br" th:replace="~{base :: layout (~{:: main})}">
 <body>
 	<main>
 		<script type="text/javascript" class="init">
@@ -50,6 +50,14 @@
 				<label for="phone">Telefone</label>
 				<input type="tel" class="form-control" th:field="*{phone}" id="phone" placeholder="(99) 99999-9999">
 				<span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+			</div>
+			<br>
+			<div class="form-group">
+				<label for="tipo">Tipo</label>
+				<select class="form-control" th:field="*{tipo}" id="tipo">
+					<option th:each="statusOpt : ${T(com.lagoinha.connect.model.connect.TipoPessoa).values()}"
+							th:value="${statusOpt}" th:utext="${statusOpt.descricao}"></option>
+				</select>
 			</div>
 			<br>
 			<div class="form-group">
