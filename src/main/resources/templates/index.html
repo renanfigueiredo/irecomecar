@@ -1,23 +1,14 @@
-<html th:replace="~{base :: layout (~{:: main})}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout (~{:: main})}">
 	<body>
 		<main>
-			<p class="lead" th:text="|Olá ${name}! Seja bem-vindo ao Kids da Igreja Recomeçar|"></p>
+			<p class="lead" th:text="|Olá ${name}! Seja bem-vindo à Igreja Recomeçar|"></p>
 			<h6>Para sair do sistema <a th:href="@{/sair}">CLIQUE AQUI</a></h6>
 			<div class="card">
 				<h4 class="card-header">Usuários</h4>
 				<div class="card-body">
-					<h5 class="card-title">Gestão de usuários do Sistema</h5>
-					<p class="card-text">Listar, cadastrar, editar ou deletar usuários do sistema.</p>
-					<a href="/user/index" class="btn btn-primary">Enter</a>
-				</div>
-			</div>
-			<br>
-			<div class="card">
-				<h4 class="card-header">Kids</h4>
-				<div class="card-body">
-					<h5 class="card-title">Cadastro de Crianças</h5>
-					<p class="card-text">Listar, cadastrar, editar ou deletar crianças.</p>
-					<a href="/connect/index" class="btn btn-primary">Acessar</a>
+					<h5 class="card-title">Gestão de Usuários</h5>
+					<p class="card-text">Listar, cadastrar, editar ou deletar usuários do sistema</p>
+					<a href="/user/index" class="btn btn-primary">Acessar</a>
 				</div>
 			</div>
 			<br>
@@ -25,37 +16,77 @@
 				<h4 class="card-header">Cultos</h4>
 				<div class="card-body">
 					<h5 class="card-title">Gestão de Cultos</h5>
-					<p class="card-text">Criar cultos, inserir crianças e colocar as pulseiras.</p>
+					<p class="card-text">Criar cultos, inserir detalhes e gerar relatórios</p>
 					<a href="/worship/index" class="btn btn-primary">Acessar</a>
 				</div>
 			</div>
 			<br>
-			<!-- 			<div class="card"> -->
-			<!-- 				<h4 class="card-header">Voluntários</h4> -->
-			<!-- 				<div class="card-body"> -->
-			<!-- 					<h5 class="card-title">Gestão de Voluntários</h5> -->
-			<!-- 			    	<p class="card-text">Listar, cadastrar, editar e deletar voluntários do connect</p> -->
-			<!-- 			    	<a href="/voluntario/index" class="btn btn-primary">Acessar</a> -->
-			<!-- 				</div> -->
-			<!-- 			</div> -->
-			<!-- 			<br> -->
-			<!-- 			<div class="card"> -->
-			<!-- 				<h4 class="card-header">Ministerios</h4> -->
-			<!-- 				<div class="card-body"> -->
-			<!-- 					<h5 class="card-title">Gestão de Ministerios</h5> -->
-			<!-- 			    	<p class="card-text">Listar, cadastrar, editar e deletar ministerios do connect</p> -->
-			<!-- 			    	<a href="/ministerio/index" class="btn btn-primary">Acessar</a> -->
-			<!-- 				</div> -->
-			<!-- 			</div> -->
-			<!-- 			<br> -->
-			<!-- 			<div class="card"> -->
-			<!-- 				<h4 class="card-header">Escalas</h4> -->
-			<!-- 				<div class="card-body"> -->
-			<!-- 					<h5 class="card-title">Gestão de Escalas</h5> -->
-			<!-- 			    	<p class="card-text">Listar, cadastrar, editar e deletar escalas do Kids</p> -->
-			<!-- 			    	<a href="/escala/index" class="btn btn-primary">Acessar</a> -->
-			<!-- 				</div> -->
-			<!-- 			</div> -->
+			<div class="card">
+				<h4 class="card-header">Módulos Administrativos</h4>
+				<div class="card-body">
+					<ul class="list-group">
+						<li class="list-group-item d-flex justify-content-between align-items-start">
+							<div class="ms-2 me-auto">
+								<h5 class="card-title">Pessoas</h5>
+								Cadastro de Pessoas do Sistema
+							</div>
+							<a class="btn btn-primary" href="/connect/index">Acessar</a>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-start">
+							<div class="ms-2 me-auto">
+								<h5 class="card-title">Kids</h5>
+								Cadastrar crianças e inserir no culto
+							</div>
+							<a class="btn btn-primary" href="/connect/index/kids">Acessar</a>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-start">
+							<div class="ms-2 me-auto">
+								<h5 class="card-title">Membros</h5>
+								Cadastrar, editar ou remover membros
+							</div>
+							<a class="btn btn-primary" href="/connect/index/membro">Acessar</a>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-start">
+							<div class="ms-2 me-auto">
+								<h5 class="card-title">Voluntários</h5>
+								Cadastrar, editar ou remover voluntários
+							</div>
+							<a class="btn btn-primary" href="/connect/index/voluntario">Acessar</a>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-start">
+							<div class="ms-2 me-auto">
+								<h5 class="card-title">Recomeços</h5>
+								Gestão de Recomeços do sistema
+							</div>
+							<a class="btn btn-primary" href="/connect/index/recomeco">Acessar</a>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-start">
+							<div class="ms-2 me-auto">
+								<h5 class="card-title">Batismo</h5>
+								Gestão de Batismos do sistema
+							</div>
+							<a class="btn btn-primary" href="/connect/index/batizar">Acessar</a>
+						</li>
+						<li class="list-group-item d-flex justify-content-between align-items-start">
+							<div class="ms-2 me-auto">
+								<h5 class="card-title">Ministérios</h5>
+								Cadastro de Ministérios do Sistema
+							</div>
+							<a href="/ministerio/index" class="btn btn-primary">Acessar</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<br>
+			<div class="card">
+				<h4 class="card-header">Escalas</h4>
+				<div class="card-body">
+					<h5 class="card-title">Gestão de Escalas</h5>
+					<p class="card-text">Cadastro de escalas dos cultos</p>
+					<a href="/escala/index" class="btn btn-primary">Acessar</a>
+				</div>
+			</div>
+			<br>
 		</main>
 	</body>
 </html>

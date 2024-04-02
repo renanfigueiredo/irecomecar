@@ -9,7 +9,6 @@
                             null,
                             { "sType": "date-uk" },
                             null,
-                            null,
                             null
                         ],
                         language: {
@@ -18,10 +17,10 @@
                     });
             });
 		</script>
-		<p class="lead">Lista de Pessoas do Sistema</p>
+		<p class="lead">Lista de Crianças Cadastradas</p>
 		<div th:switch="${connects}">
 			<p>
-				<a class="btn btn-primary" href="/connect/signup">Cadastrar nova Pessoa</a>
+				<a class="btn btn-primary" href="/connect/signup/kids">Cadastrar nova Criança</a>
 			</p>
 			<h2 th:case="null">Sem pessoas cadastradas!</h2>
 			<div th:case="*">
@@ -31,7 +30,6 @@
 						<th>Nome</th>
 						<th>Data de Nascimento</th>
 						<th>Telefone</th>
-						<th>Tipo</th>
 						<th>Ações</th>
 					</tr>
 					</thead>
@@ -40,7 +38,6 @@
 						<td th:text="${connect.name}"></td>
 						<td th:text="${connect.birthDate}"></td>
 						<td th:text="${connect.phone}"></td>
-						<td th:text="${connect.tipo.descricao}"></td>
 						<td>
 							<a class="btn btn-warning btn-sm" th:href="@{/connect/edit/{id}(id=${connect.id})}">Editar</a>
 							<a

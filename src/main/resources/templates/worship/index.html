@@ -1,5 +1,4 @@
-<html th:replace="~{base :: layout (~{:: main})}">
-<head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="pt-br" th:replace="~{base :: layout (~{:: main})}">
 <body>
 	<main>
 		<script type="text/javascript" class="init">
@@ -48,11 +47,9 @@
 						<td>
 							<a class="btn btn-success btn-sm" th:href="@{/worship/details/{id}(id=${worship.id})}">Detalhes</a>
 							<a class="btn btn-warning btn-sm" th:href="@{/worship/edit/{id}(id=${worship.id})}">Editar Cadastro</a>
-							<a
-									th:if="${worship.status == T(com.lagoinha.connect.model.worship.Status).EXCLUIR}" th:href="@{/worship/delete/{id}(id=${worship.id})}"
-									class="btn btn-danger btn-sm"
-									th:data-confirm-delete="|Deseja realmente realizar a exclusão da criança ${connect.name}?|"
-									onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
+							<a class="btn btn-danger btn-sm" th:href="@{/worship/delete/{id}(id=${worship.id})}"
+							   th:data-confirm-delete="|Deseja realmente realizar a exclusão do culto?|"
+							   onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false"
 							>
 								Excluir
 							</a>

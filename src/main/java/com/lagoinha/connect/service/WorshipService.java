@@ -31,7 +31,6 @@ public class WorshipService {
 	private final static String COLLECTION = "worship";
 	
 	public Worship save(Worship worship) {
-		//usuario.setSenha(criptografia.criptografia(worship.getSenha()));
 		return mongoTemplate.save(worship, COLLECTION);
 	}
 	

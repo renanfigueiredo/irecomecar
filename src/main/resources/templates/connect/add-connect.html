@@ -1,4 +1,4 @@
-<html th:replace="~{base :: layout (~{:: main})}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="pt-br" th:replace="~{base :: layout (~{:: main})}">
 <body>
 	<main>
 		<script type="text/javascript" class="init">
@@ -26,11 +26,12 @@
 					<li class="list-group-item-danger" th:each="item : ${errors}" th:text="${item}"></li>
 				</ol>
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</svg>
 		</div>
 		<form action="#" th:action="@{/connect/addconnect}" th:object="${connect}" method="post">
 			<div class="form-group">
 				<label for="name">Nome</label>
-				<input class="form-control" type="text" th:field="*{name}" id="name" placeholder="Nome da criança">
+				<input class="form-control" type="text" th:field="*{name}" id="name" placeholder="Nome da pessoa">
 			</div>
 			<br>
 			<div class="form-group">
@@ -39,17 +40,20 @@
 			</div>
 			<br>
 			<div class="form-group">
-				<label for="responsible">Responsável</label>
-				<input class="form-control" type="text" th:field="*{responsible}" id="responsible" placeholder="Nome do Responsável">
-			</div>
-			<br>
-			<div class="form-group">
-				<label for="email">Telefone</label>
+				<label for="phone">Telefone</label>
 				<input class="form-control" type="tel" th:field="*{phone}" id="phone" placeholder="(99) 99999-9999">
 			</div>
 			<br>
 			<div class="form-group">
-				<input class="btn btn-primary" type="submit" value="Adicionar Kids">
+				<label for="tipo">Tipo</label>
+				<select class="form-control" th:field="*{tipo}" id="tipo">
+					<option th:each="statusOpt : ${T(com.lagoinha.connect.model.connect.TipoPessoa).values()}"
+							th:value="${statusOpt}" th:utext="${statusOpt.descricao}"></option>
+				</select>
+			</div>
+			<br>
+			<div class="form-group">
+				<input class="btn btn-primary" type="submit" value="Adicionar Pessoa">
 				<a class="btn btn-danger" th:href="@{/connect/index}">Voltar</a>
 			</div>
 
