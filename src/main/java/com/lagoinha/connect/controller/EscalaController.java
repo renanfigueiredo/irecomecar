@@ -8,12 +8,11 @@ import com.lagoinha.connect.model.voluntario.Escala;
 import com.lagoinha.connect.model.voluntario.EscalaIndex;
 import com.lagoinha.connect.model.voluntario.EscalaVoluntario;
 import com.lagoinha.connect.model.voluntario.Ministerio;
-import com.lagoinha.connect.model.voluntario.Voluntario;
 import com.lagoinha.connect.model.voluntario.VoluntarioSemCadastro;
 import com.lagoinha.connect.model.worship.Worship;
 import com.lagoinha.connect.service.*;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,20 +24,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("escala")
+@AllArgsConstructor
 public class EscalaController {
 
-	@Autowired
-	EscalaService escalaService;
+	private final EscalaService escalaService;
 	
-	@Autowired
-	ConnectService connectService;
+	private final ConnectService connectService;
 	
-	@Autowired
-	MinisterioService ministerioService;
+	private final MinisterioService ministerioService;
 	
-	@Autowired
-	WorshipService worshipService;
-	
+	private final WorshipService worshipService;
+
+	private static final String ESCALA_PAGINA_INICIAL = "escalaIndex";
+	private static final String ESCALA_ATRIBUTO = "escala";
+	private static final String MINISTERIOS_ATRIBUTO = "ministerios";
+	private static final String ESCALA_PAGINA_INICIAL_REDIRECT = "redirect:/escala/index";
+	private static final String ESCALA_DETALHES_REDIRECT = "redirect:/escala/details/";
+
 	
 	@GetMapping("signup")
     public String showSignUpForm(Escala escala, Model model) {
@@ -54,8 +56,8 @@ public class EscalaController {
 		escalaIndex.setId(escala.getId());
 		Worship culto = worshipService.findById(escala.getIdCulto());
 		escalaIndex.setCulto(culto);
-	    model.addAttribute("escalaIndex", escalaIndex);
-	    model.addAttribute("escala", escala);
+	    model.addAttribute(ESCALA_PAGINA_INICIAL, escalaIndex);
+	    model.addAttribute(ESCALA_ATRIBUTO, escala);
 	    return "escala/details-escala";
     }
 	
@@ -67,9 +69,9 @@ public class EscalaController {
 		escalaIndex.setId(escala.getId());
 		Worship culto = worshipService.findById(escala.getIdCulto());
 		escalaIndex.setCulto(culto);
-	    model.addAttribute("escalaIndex", escalaIndex);
+	    model.addAttribute(ESCALA_PAGINA_INICIAL, escalaIndex);
 	    model.addAttribute("voluntarios", voluntarios);
-	    model.addAttribute("escala", escala);
+	    model.addAttribute(ESCALA_ATRIBUTO, escala);
 	    return "escala/list-voluntarios";
     }
 	
@@ -81,9 +83,9 @@ public class EscalaController {
 		escalaIndex.setId(escala.getId());
 		Worship culto = worshipService.findById(escala.getIdCulto());
 		escalaIndex.setCulto(culto);
-	    model.addAttribute("escalaIndex", escalaIndex);
-	    model.addAttribute("escala", escala);
-	    model.addAttribute("ministerios", ministerios);
+	    model.addAttribute(ESCALA_PAGINA_INICIAL, escalaIndex);
+	    model.addAttribute(ESCALA_ATRIBUTO, escala);
+	    model.addAttribute(MINISTERIOS_ATRIBUTO, ministerios);
 	    return "escala/list-voluntarios-ministerios";
     }
 	
@@ -94,8 +96,8 @@ public class EscalaController {
 		List<Ministerio> ministerios = ministerioService.list();
 	    Escala escala = escalaService.findById(id);
 	    model.addAttribute("voluntarios", voluntarios);
-	    model.addAttribute("escala", escala);
-	    model.addAttribute("ministerios", ministerios);
+	    model.addAttribute(ESCALA_ATRIBUTO, escala);
+	    model.addAttribute(MINISTERIOS_ATRIBUTO, ministerios);
 	    return "escala/list-voluntarios-ministerios";
     }
 	
@@ -111,10 +113,10 @@ public class EscalaController {
 		escalaIndex.setId(escala.getId());
 		Worship culto = worshipService.findById(escala.getIdCulto());
 		escalaIndex.setCulto(culto);
-	    model.addAttribute("escalaIndex", escalaIndex);
-	    model.addAttribute("escala", escala);
+	    model.addAttribute(ESCALA_PAGINA_INICIAL, escalaIndex);
+	    model.addAttribute(ESCALA_ATRIBUTO, escala);
 	    model.addAttribute("voluntario", voluntario);
-	    model.addAttribute("ministerios", ministerios);
+	    model.addAttribute(MINISTERIOS_ATRIBUTO, ministerios);
 	    model.addAttribute("escalaVoluntario", new EscalaVoluntario());
 	    return "escala/add-voluntario-ministerio";
     }
@@ -139,7 +141,7 @@ public class EscalaController {
 	            return "/escala/add-escala";
 	        }
 		escalaService.save(escala);
-		return "redirect:/escala/index";
+		return ESCALA_PAGINA_INICIAL_REDIRECT;
 	}
 	
 	@PostMapping("add-voluntario-ministerio-escala/{idEscala}/{idVoluntario}")
@@ -157,7 +159,7 @@ public class EscalaController {
 				volutario, 
 				ministerioAux,
 				false);
-		return "redirect:/escala/details/" + escala.getId();
+		return ESCALA_PAGINA_INICIAL_REDIRECT + escala.getId();
 	}
 	
 	@GetMapping("{idEscala}/add-voluntario-sem-cadastro")
@@ -167,17 +169,16 @@ public class EscalaController {
 		escalaIndex.setId(escala.getId());
 		Worship culto = worshipService.findById(escala.getIdCulto());
 		escalaIndex.setCulto(culto);
-	    model.addAttribute("escalaIndex", escalaIndex);
-	    model.addAttribute("escala", escala);
+	    model.addAttribute(ESCALA_PAGINA_INICIAL, escalaIndex);
+	    model.addAttribute(ESCALA_ATRIBUTO, escala);
 	    model.addAttribute("voluntarioSemCadastro", new VoluntarioSemCadastro());
-	    model.addAttribute("ministerios", ministerioService.list());
+	    model.addAttribute(MINISTERIOS_ATRIBUTO, ministerioService.list());
 	    return "escala/add-voluntario-sem-cadastro";
     }
 	
 	@PostMapping("add-voluntario-sem-cadastro")
 	public String save(@ModelAttribute VoluntarioSemCadastro voluntarioSemCadastro, BindingResult result, Model model){
 		
-		//Transformar o form no Voluntario para salvar no banco de dados;
 		Connect voluntario = new Connect();
 		voluntario.setName(voluntarioSemCadastro.getNomeVoluntario() + " "+ voluntarioSemCadastro.getSobrenomeVoluntario());
 		voluntario.setPhone(voluntarioSemCadastro.getTelefoneVoluntario());
@@ -190,13 +191,13 @@ public class EscalaController {
 		
 		escalaService.addVoluntario(escala, voluntarioSaved, ministerio, false);
 		
-		return "redirect:/escala/details/" + voluntarioSemCadastro.getIdEscala();
+		return ESCALA_DETALHES_REDIRECT + voluntarioSemCadastro.getIdEscala();
 	}
 	
 	@GetMapping("voluntario/delete/{idEscala}/{idVoluntario}")
 	public String deleteVoluntario(@PathVariable String idEscala, @PathVariable String idVoluntario, Model model){
 		escalaService.deleteVoluntario(idEscala, idVoluntario);
-		return "redirect:/escala/details/" + idEscala;
+		return ESCALA_DETALHES_REDIRECT + idEscala;
 	}
 	
 	@GetMapping("fazerCheckin/{idEscala}/{idVoluntario}")
@@ -204,7 +205,7 @@ public class EscalaController {
 		Escala escala = escalaService.findById(idEscala);
 		Connect voluntario = connectService.findById(idVoluntario);
 		escalaService.fazerCheckin(escala, voluntario, true);
-		return "redirect:/escala/details/" + idEscala;
+		return ESCALA_DETALHES_REDIRECT + idEscala;
 	}
 	
 	@GetMapping("removerCheckin/{idEscala}/{idVoluntario}")
@@ -212,13 +213,13 @@ public class EscalaController {
 		Escala escala = escalaService.findById(idEscala);
 		Connect voluntario = connectService.findById(idVoluntario);
 		escalaService.fazerCheckin(escala, voluntario, false);
-		return "redirect:/escala/details/" + idEscala;
+		return ESCALA_DETALHES_REDIRECT + idEscala;
 	}
 	
 	@GetMapping("edit/{id}")
 	public String showUpdateForm(@PathVariable("id") String id, Model model) {
 	    Escala escala = escalaService.findById(id);
-	    model.addAttribute("escala", escala);
+	    model.addAttribute(ESCALA_ATRIBUTO, escala);
 	    List<Worship> cultos = worshipService.findOpenWorships();
 	    model.addAttribute("cultos", cultos);
 	    
@@ -232,12 +233,12 @@ public class EscalaController {
 	        return "escala/update-escala";
 	    }
 		escalaService.edit(escala);
-		return "redirect:/escala/index";
+		return ESCALA_PAGINA_INICIAL_REDIRECT;
 	}
 	
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable String id, Model model){
 		escalaService.delete(id);
-		return "redirect:/escala/index";
+		return ESCALA_PAGINA_INICIAL_REDIRECT;
 	}
 }

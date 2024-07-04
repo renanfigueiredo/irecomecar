@@ -123,19 +123,20 @@ public class ConnectController {
 		List<String> err = null;
 		try {
 			connectService.edit(connect);
-			return "redirect:/connect/index";
+			return connectService.redirectByType(connect);
 		} catch (Exception e) {
 			connect.setId(connect.getId());
 			err = StringHelper.stringAsList(e.getMessage());
 			model.addAttribute("errors", err);
-			return "connect/update-connect";
+			return connectService.redirectByType(connect);
 		}
 	}
 
 	@GetMapping("delete/{id}")
 	public String delete(@PathVariable String id, Model model) {
+		Connect connect = connectService.findById(id);
 		connectService.delete(id);
-		return "redirect:/connect/index";
+		return connectService.redirectByType(connect);
 	}
 
 }

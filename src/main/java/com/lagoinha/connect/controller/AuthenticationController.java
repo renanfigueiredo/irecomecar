@@ -31,11 +31,13 @@ public class AuthenticationController {
     public String home(Model model, HttpServletRequest request, HttpServletResponse res, HttpSession session) {
         String msg = null;
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("token")) {
-                cookie.setMaxAge(0);
-                res.addCookie(cookie);
-                msg = "Logout successfully";
+        if(cookies != null){
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    cookie.setMaxAge(0);
+                    res.addCookie(cookie);
+                    msg = "Logout successfully";
+                }
             }
         }
         session.setAttribute("msg", msg);

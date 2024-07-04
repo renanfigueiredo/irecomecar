@@ -149,7 +149,10 @@ public class ConnectService {
 				Query query  = new Query(Criteria.where("id").is(connect.getId()));
 				Connect usuarioAuxiliar = mongoTemplate.findOne(query, Connect.class);
 				if(usuarioAuxiliar != null) {
-					return mongoTemplate.save(connect, COLLECTION);
+					if(Boolean.TRUE.equals(validarConnect(connect))) {
+						salvarStrategy(connect);
+						return mongoTemplate.save(connect, COLLECTION);
+					}
 				}
 			}
 			return null;
